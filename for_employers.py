@@ -1,10 +1,11 @@
 from time import sleep
 
 from selenium import webdriver
+from selenium.webdriver import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
 url=str(input('Куда стучимся? '))
 company = str(input('К какой компании обращаемся '))
 projects_count=int(input('На скольки проектах ты там работа? '))
@@ -12,12 +13,14 @@ released = int(input('Сколько из них релизнулось? '))
 already_released = int(input('Сколько из них почти релизнулось? '))
 active_work_to_release = int(input('Сколько в активной разработке? '))
 unknown_release_status=int(input('Сколько будут рефакториться? '))
-repository=''
+repository='https://github.com/nekto86/resume'
 
 browser = webdriver.Chrome()
 browser.get(url)
+sleep(3)
+browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 wait=WebDriverWait(browser, 30)
-element=wait.until(EC.element_to_be_clickable((By.NAME, 'firstName')))
+element=wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'check__box')))
 browser.find_element_by_name('firstName').send_keys ('Горяйнов Дмитрий')
 browser.find_element_by_name('email').send_keys('rinat.mux@yandex.ru')
 browser.find_element_by_name('contact-info-other').send_keys('+7922655788')
@@ -38,8 +41,10 @@ browser.find_element_by_name('detailText').send_keys(f'Доброго време
 wait=WebDriverWait(browser, 30)
 element=wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'check__box')))
 browser.find_element_by_css_selector('.check__box').click()
-#browser.find_element_by_css_selector('.all-jobs-form__button').click()
-sleep(1000)
+wait=WebDriverWait(browser, 30)
+element=wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'all-jobs-form__button')))
+browser.find_element_by_class_name('all-jobs-form__button').click()
+sleep(10)
 browser.close()
 
 
